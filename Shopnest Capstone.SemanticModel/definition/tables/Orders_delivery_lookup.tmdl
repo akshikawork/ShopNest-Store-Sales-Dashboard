@@ -1,0 +1,188 @@
+table Orders_delivery_lookup
+	lineageTag: 87d9952d-3daa-4cfe-8ed7-b5925958a77f
+
+	column order_id
+		dataType: string
+		lineageTag: 6c5dd937-c2a6-4a95-a796-b14dcc0e01a3
+		summarizeBy: none
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_id
+		dataType: string
+		lineageTag: b066064b-e623-48b7-8890-688dae080078
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_status
+		dataType: string
+		lineageTag: 1d50813c-50c0-4c17-8579-3c2688bab03c
+		summarizeBy: none
+		sourceColumn: order_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_purchase_timestamp
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: ec20ed80-7ee9-4387-8900-9da8c97e464a
+		summarizeBy: none
+		sourceColumn: order_purchase_timestamp
+
+		variation Variation
+			isDefault
+			relationship: e6a6c3f8-42ce-40ac-8082-fcc2d4bfa10c
+			defaultHierarchy: LocalDateTable_d016ffce-2af2-4af3-a660-3339e5a33668.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column order_delivered_carrier_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 50fdfc47-e54c-4fea-bc57-b85f661dc95e
+		summarizeBy: none
+		sourceColumn: order_delivered_carrier_date
+
+		variation Variation
+			isDefault
+			relationship: d6b20028-7ce7-40db-befc-7dbaf0cc1b86
+			defaultHierarchy: LocalDateTable_c979f3bb-eb56-4f29-b96b-bb22a0969338.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_delivered_customer_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 723b5c18-a537-4879-a525-470ec1225ba0
+		summarizeBy: none
+		sourceColumn: order_delivered_customer_date
+
+		variation Variation
+			isDefault
+			relationship: bb2f7849-ca30-4c30-b642-db6e7dcf1af5
+			defaultHierarchy: LocalDateTable_3e27f691-012b-4eaf-983e-e99f6341cca6.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column order_estimated_delivery_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: d65747d2-1e97-4ba0-952c-cb1213210989
+		summarizeBy: none
+		sourceColumn: order_estimated_delivery_date
+
+		variation Variation
+			isDefault
+			relationship: 7aa8efd6-1540-4d49-b709-63fe185e314e
+			defaultHierarchy: LocalDateTable_0599e659-ee12-437a-9cb3-80a329aed40a.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Delivery Status'
+		dataType: string
+		lineageTag: a9ddf6a6-5cb0-43e0-9457-a984d5e083c4
+		summarizeBy: none
+		sourceColumn: Delivery Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Name'
+		dataType: string
+		lineageTag: e0224e76-0fbb-44f0-9459-d55740489e05
+		summarizeBy: none
+		sourceColumn: Month Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Order_quarter
+		dataType: string
+		lineageTag: b9bc7037-4c6e-4508-94cf-84f040344474
+		summarizeBy: none
+		sourceColumn: Order_quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column Order_year
+		dataType: int64
+		formatString: 0
+		lineageTag: 765ea876-db21-4e34-9d5e-462d337eb184
+		summarizeBy: sum
+		sourceColumn: Order_year
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Year Quarter'
+		dataType: string
+		lineageTag: 484ce88d-59fd-41dd-bd1a-2edf83556501
+		summarizeBy: none
+		sourceColumn: Year Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column Day
+		dataType: int64
+		formatString: 0
+		lineageTag: a4637912-3c25-497b-98f5-b74a556a4dca
+		summarizeBy: sum
+		sourceColumn: Day
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'Order date Drilldown'
+		lineageTag: f12ee619-7bd1-4d61-bd89-84cdbc1d7ba3
+
+		level Order_year
+			lineageTag: bc088271-c5ac-4a60-8d9b-1c8e2aac61bf
+			column: Order_year
+
+		level Order_quarter
+			lineageTag: ff052c39-c3d7-4292-a419-5f6e2d4e8801
+			column: Order_quarter
+
+		level 'Month Name'
+			lineageTag: 03f926fc-3eaa-4871-9108-f210fda25125
+			column: 'Month Name'
+
+		level Day
+			lineageTag: 565c5ed1-3963-4cb1-ab4d-2542ed1967a9
+			column: Day
+
+	partition Orders_delivery_lookup = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\NC\OneDrive\Desktop\Nexusgoods store capstone\Nexusgoods_orders_dataset (1).csv"),[Delimiter=",", Columns=8, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"order_id", type text}, {"customer_id", type text}, {"order_status", type text}, {"order_purchase_timestamp", type datetime}, {"order_approved_at", type datetime}, {"order_delivered_carrier_date", type datetime}, {"order_delivered_customer_date", type datetime}, {"order_estimated_delivery_date", type datetime}}),
+				    #"Extracted Date" = Table.TransformColumns(#"Changed Type",{{"order_delivered_customer_date", DateTime.Date, type date}, {"order_estimated_delivery_date", DateTime.Date, type date}}),
+				    #"Added Conditional Column" = Table.AddColumn(#"Extracted Date", "Custom", each if [order_delivered_customer_date] = null then "Not Delivered" else if [order_delivered_customer_date] <= [order_estimated_delivery_date] then "On Time" else if [order_delivered_customer_date] > [order_estimated_delivery_date] then "Delayed" else null),
+				    #"Inserted Month Name" = Table.AddColumn(#"Added Conditional Column", "Month Name", each Date.MonthName([order_purchase_timestamp]), type text),
+				    #"Renamed Columns" = Table.RenameColumns(#"Inserted Month Name",{{"Custom", "Delivery Status"}}),
+				    #"Inserted Quarter" = Table.AddColumn(#"Renamed Columns", "Quarter", each Date.QuarterOfYear([order_purchase_timestamp]), Int64.Type),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Inserted Quarter",{{"Quarter", "Order_quarter"}}),
+				    #"Inserted Year" = Table.AddColumn(#"Renamed Columns1", "Year", each Date.Year([order_purchase_timestamp]), Int64.Type),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Inserted Year",{{"Year", "Order_year"}}),
+				    #"Added Prefix" = Table.TransformColumns(#"Renamed Columns2", {{"Order_quarter", each "Q" & Text.From(_, "en-150"), type text}}),
+				    #"Inserted Merged Column" = Table.AddColumn(#"Added Prefix", "Merged", each Text.Combine({[Order_quarter], Text.From([Order_year], "en-150")}, " "), type text),
+				    #"Renamed Columns3" = Table.RenameColumns(#"Inserted Merged Column",{{"Merged", "Year Quarter"}}),
+				    #"Sorted Rows" = Table.Sort(#"Renamed Columns3",{{"Order_year", Order.Ascending}, {"Order_quarter", Order.Ascending}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Sorted Rows",{"order_approved_at"}),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Removed Columns",{"order_id", "customer_id", "order_status", "order_purchase_timestamp", "order_delivered_carrier_date", "order_delivered_customer_date", "order_estimated_delivery_date", "Delivery Status", "Order_year", "Order_quarter", "Month Name", "Year Quarter"}),
+				    #"Inserted Day" = Table.AddColumn(#"Reordered Columns", "Day", each Date.Day([order_purchase_timestamp]), Int64.Type),
+				    #"Extracted Date1" = Table.TransformColumns(#"Inserted Day",{{"order_purchase_timestamp", DateTime.Date, type date}})
+				in
+				    #"Extracted Date1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

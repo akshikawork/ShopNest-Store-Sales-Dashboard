@@ -1,0 +1,57 @@
+relationship AutoDetected_8d01c5e7-517f-4fa8-ae2b-6f73e5eb4b39
+	isActive: false
+	fromColumn: Products_lookup.'Category Name'
+	toColumn: Category_name_translation.product_category_name_english
+
+relationship 2ed0b92a-938f-439f-b32f-02d37773da87
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Order_items.shipping_limit_date
+	toColumn: LocalDateTable_2c012bf2-d200-4be6-a0b3-eede0a09e652.Date
+
+relationship AutoDetected_7a998197-d6cd-4f81-a40a-fb6ffeabc71c
+	fromColumn: Order_items.product_id
+	toColumn: Products_lookup.product_id
+
+relationship e6a6c3f8-42ce-40ac-8082-fcc2d4bfa10c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Orders_delivery_lookup.order_purchase_timestamp
+	toColumn: LocalDateTable_d016ffce-2af2-4af3-a660-3339e5a33668.Date
+
+relationship d6b20028-7ce7-40db-befc-7dbaf0cc1b86
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Orders_delivery_lookup.order_delivered_carrier_date
+	toColumn: LocalDateTable_c979f3bb-eb56-4f29-b96b-bb22a0969338.Date
+
+relationship bb2f7849-ca30-4c30-b642-db6e7dcf1af5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Orders_delivery_lookup.order_delivered_customer_date
+	toColumn: LocalDateTable_3e27f691-012b-4eaf-983e-e99f6341cca6.Date
+
+relationship 7aa8efd6-1540-4d49-b709-63fe185e314e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Orders_delivery_lookup.order_estimated_delivery_date
+	toColumn: LocalDateTable_0599e659-ee12-437a-9cb3-80a329aed40a.Date
+
+relationship AutoDetected_1218aae9-6120-4479-9508-6de8cdd93358
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: Orders_delivery_lookup.customer_id
+	toColumn: Customers_lookup.customer_id
+
+relationship AutoDetected_048bef2d-0713-412d-a1bb-7b73b72863e0
+	fromColumn: Order_payments_lookup.order_id
+	toColumn: Orders_delivery_lookup.order_id
+
+relationship AutoDetected_1344e942-d890-49aa-9664-af147e404190
+	fromColumn: Order_reviews_lookup.order_id
+	toColumn: Orders_delivery_lookup.order_id
+
+relationship 0f8fb2b2-468d-6fe4-8865-79a51333a516
+	fromColumn: Order_items.order_id
+	toColumn: Order_reviews_lookup.order_id
+
+relationship 66b69d82-3a0f-8b90-8c28-68f44624bc25
+	isActive: false
+	fromColumn: Order_items.order_id
+	toColumn: Orders_delivery_lookup.order_id
+
