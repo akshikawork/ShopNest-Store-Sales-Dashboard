@@ -1,1 +1,2 @@
 # ShopNest-Store-Sales-Dashboard
+Developed a dynamic Power BI dashboard combining multiple datasets (orders, sellers, payments, products) to track sales, delayed deliveries, payment methods, product ratings, and regional/seasonal trends. Applied DAX for KPIs and built interactive visuals (maps, charts, drill-through reports) that answered 8 major business questions, helping stakeholders make data-driven decisions.
